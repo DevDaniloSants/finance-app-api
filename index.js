@@ -1,14 +1,10 @@
 import express from 'express';
 import 'dotenv/config';
 
-import { PostgresHelper } from './src/db/postgres/helper.js';
-
 const app = express();
 
-app.get('/', async (req, res) => {
-    const results = await PostgresHelper.query('SELECT * FROM users;');
+app.use(express.json());
 
-    res.send(JSON.stringify(results));
-});
+const port = process.env.PORT;
 
-app.listen(3000, () => console.log('listening on port 3000'));
+app.listen(port, () => console.log(`listening to port ${port}`));
