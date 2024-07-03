@@ -1,4 +1,4 @@
-import { PostgresHelper } from '../../db/postgres/helper';
+import { PostgresHelper } from '../../db/postgres/helper.js';
 
 export class PostgresGetByUserId {
     async execute(userId) {
