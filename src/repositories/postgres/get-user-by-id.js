@@ -1,6 +1,6 @@
 import { PostgresHelper } from '../../db/postgres/helper.js';
 
-export class PostgresGetByUserId {
+export class PostgresGetByUserIdRepository {
     async execute(userId) {
         const user = await PostgresHelper.query(
             'SELECT * FROM users WHERE id = $1',
