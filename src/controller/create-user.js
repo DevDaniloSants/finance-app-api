@@ -1,5 +1,5 @@
 import { CreateUserUseCase } from '../use-cases/create-user.js';
-import { badRequest, created, serverError } from './helpers/http.js';
+import { badRequest, created, serverError } from './helpers/index.js';
 import { EmailIsAlreadyInUseError } from '../errors/user.js';
 import {
     checkIfEmailIsValid,
