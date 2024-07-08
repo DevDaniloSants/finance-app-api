@@ -1,6 +1,7 @@
 import { CreateUserUseCase } from '../use-cases/index.js';
 import { badRequest, created, serverError } from './helpers/index.js';
 import { EmailIsAlreadyInUseError } from '../errors/user.js';
+
 import {
     checkIfEmailIsValid,
     checkIfPasswordIsValid,
