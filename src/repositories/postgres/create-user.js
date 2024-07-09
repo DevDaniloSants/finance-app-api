@@ -1,6 +1,6 @@
 import { PostgresHelper } from '../../db/postgres/helper.js';
 
-export class PostgresCreateUserRepository {
+export class CreateUserRepository {
     async execute(createUserParams) {
         await PostgresHelper.query(
             'INSERT INTO users (id, first_name, last_name, email, password) VALUES ($1, $2, $3, $4, $5)',
