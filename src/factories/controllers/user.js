@@ -1,23 +1,23 @@
-import { DeleteUserController } from '../../controller/delete-user.js';
 import {
     CreateUserController,
     GetUserByIdController,
     UpdateUserController,
+    DeleteUserController,
 } from '../../controller/index.js';
-import { DeleteUserRepository } from '../../repositories/postgres/delete-user.js';
 
 import {
     CreateUserRepository,
     GetUserByEmailRepository,
     GetUserByIdRepository,
     UpdateUserRepository,
+    DeleteUserRepository,
 } from '../../repositories/postgres/index.js';
-import { DeleteUserUseCase } from '../../use-cases/delete-user.js';
 
 import {
     CreateUserUseCase,
     GetUserByIdUseCase,
     UpdateUserUseCase,
+    DeleteUserUseCase,
 } from '../../use-cases/index.js';
 
 export const makeCreateUserController = () => {
