@@ -3,7 +3,7 @@ import { badRequest } from './http.js';
 
 export const checkIfAmountIsValid = (amount) => {
     return validator.isCurrency(
-        amount.toString(),
+        amount.toFixed(2),
 
         {
             digits_after_decimal: [2],
