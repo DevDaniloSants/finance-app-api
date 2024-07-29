@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { prisma } from '../../../../prisma/prisma.js';
 
 export class GetUserBalanceRepository {
@@ -38,11 +39,13 @@ export class GetUserBalanceRepository {
             },
         });
 
-        const _totalEarning = totalEarnings || 0;
-        const _totalExpenses = totalExpenses || 0;
-        const _totalInvestments = totalInvestments || 0;
+        const _totalEarning = totalEarnings || new Prisma.Decimal(0);
+        const _totalExpenses = totalExpenses || new Prisma.Decimal(0);
+        const _totalInvestments = totalInvestments || new Prisma.Decimal(0);
 
-        const balance = _totalEarning - _totalExpenses - _totalInvestments;
+        const balance = new Prisma.Decimal(
+            _totalEarning - _totalExpenses - _totalInvestments,
+        );
 
         return {
             earnings: _totalEarning,
