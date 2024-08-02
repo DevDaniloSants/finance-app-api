@@ -1,10 +1,16 @@
-import globals from 'globals';
-import pluginJs from '@eslint/js';
+import jest from 'eslint-plugin-jest';
 
 export default [
-    { languageOptions: { globals: { ...globals.node, ...globals.mocha } } },
-    pluginJs.configs.recommended,
     {
-        files: ['tests/**'],
+        files: ['test/**'],
+        ...jest.configs['flat/recommended'],
+        rules: {
+            ...jest.configs['flat/recommended'].rules,
+            'jest/prefer-expect-assertions': 'off',
+        },
+    },
+    {
+        files: ['test/**'],
+        rules: { 'jest/prefer-expect-assertions': 'off' },
     },
 ];
