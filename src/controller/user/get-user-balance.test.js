@@ -1,9 +1,10 @@
-import { GetUserBalanceController } from './get-user-balance';
 import { faker } from '@faker-js/faker';
+
+import { GetUserBalanceController } from './get-user-balance';
 
 describe('GetUserBalanceController', () => {
     class GetUserBalanceUseCaseStub {
-        execute() {
+        async execute() {
             return {
                 earnings: `${faker.number.int()}`,
                 expenses: `${faker.number.int()}`,
@@ -45,5 +46,20 @@ describe('GetUserBalanceController', () => {
 
         //assert
         expect(result.statusCode).toBe(400);
+    });
+
+    it('should return 500 if GetUserBalanceUseCase throws', async () => {
+        //arrange
+        const { sut, getUserBalanceUseCase } = makeSut();
+
+        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValue(
+            new Error(),
+        );
+        //act
+
+        const result = await sut.execute(httpRequest);
+
+        //assert
+        expect(result.statusCode).toBe(500);
     });
 });
