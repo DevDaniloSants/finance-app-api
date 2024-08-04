@@ -4,6 +4,7 @@ import {
     notFound,
     ok,
     serverError,
+    userNotFoundResponse,
 } from '../helpers/index.js';
 
 export class DeleteUserController {
@@ -23,7 +24,7 @@ export class DeleteUserController {
             const user = await this.deleteUserUseCase.execute(userId);
 
             if (!user) {
-                return notFound({ message: 'user not found.' });
+                return userNotFoundResponse();
             }
 
             return ok(user);
