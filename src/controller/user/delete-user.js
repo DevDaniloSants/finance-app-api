@@ -3,6 +3,7 @@ import {
     invalidIdResponse,
     notFound,
     ok,
+    serverError,
 } from '../helpers/index.js';
 
 export class DeleteUserController {
@@ -28,6 +29,7 @@ export class DeleteUserController {
             return ok(user);
         } catch (error) {
             console.log(error);
+            return serverError();
         }
     }
 }
