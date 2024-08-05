@@ -1,7 +1,6 @@
 import {
     checkIfIdIsValid,
     invalidIdResponse,
-    notFound,
     ok,
     serverError,
     userNotFoundResponse,
