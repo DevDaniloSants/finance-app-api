@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
-import { GetUserByIdController } from './get-by-user-id';
+import { GetUserByIdController } from './get-user-by-id';
 
-describe('GetByUserIdController', () => {
-    class GetByUserIdUseCaseStub {
+describe('GetUserByIdController', () => {
+    class GetUserByIdUseCase {
         async execute() {
             return {
                 first_name: faker.person.firstName(),
@@ -14,10 +14,10 @@ describe('GetByUserIdController', () => {
     }
 
     const makeSut = () => {
-        const getByUserIdUseCase = new GetByUserIdUseCaseStub();
-        const sut = new GetUserByIdController(getByUserIdUseCase);
+        const getUserByIdUseCase = new GetUserByIdUseCase();
+        const sut = new GetUserByIdController(getUserByIdUseCase);
 
-        return { sut, getByUserIdUseCase };
+        return { sut, getUserByIdUseCase };
     };
 
     const httpRequest = {
@@ -55,9 +55,9 @@ describe('GetByUserIdController', () => {
     it('should return 404 if user not found', async () => {
         //arrange
 
-        const { sut, getByUserIdUseCase } = makeSut();
+        const { sut, getUserByIdUseCase } = makeSut();
 
-        jest.spyOn(getByUserIdUseCase, 'execute').mockResolvedValue(null);
+        jest.spyOn(getUserByIdUseCase, 'execute').mockResolvedValue(null);
         //act
 
         const result = await sut.execute(httpRequest);
@@ -67,12 +67,12 @@ describe('GetByUserIdController', () => {
         expect(result.statusCode).toBe(404);
     });
 
-    it('should return 500 if GetByUserIdUseCase throws', async () => {
+    it('should return 500 if GetUserByIdUseCase throws', async () => {
         //arrange
 
-        const { sut, getByUserIdUseCase } = makeSut();
+        const { sut, getUserByIdUseCase } = makeSut();
 
-        jest.spyOn(getByUserIdUseCase, 'execute').mockRejectedValueOnce(
+        jest.spyOn(getUserByIdUseCase, 'execute').mockRejectedValueOnce(
             new Error(),
         );
 
