@@ -2,7 +2,6 @@ import { TransactionNotFoundError } from '../../errors/transaction.js';
 import {
     checkIfIdIsValid,
     invalidIdResponse,
-    notFound,
     ok,
     serverError,
     transactionNotFoundResponse,
@@ -27,7 +26,7 @@ export class DeleteTransactionController {
                 await this.deleteTransactionUseCase.execute(transactionId);
 
             if (!transaction) {
-                return notFound({ message: 'transaction not found' });
+                return transactionNotFoundResponse();
             }
 
             return ok(transaction);
