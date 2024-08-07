@@ -21,7 +21,11 @@ describe('CreateTransactionController', () => {
             name: faker.commerce.productName(),
             date: faker.date.anytime().toISOString(),
             amount: +faker.finance.amount({ min: 0, max: 10000, dec: 2 }),
-            type: 'EXPENSE',
+            type: faker.helpers.arrayElement([
+                'EARNING',
+                'EXPENSE',
+                'INVESTMENT',
+            ]),
         },
     };
 
