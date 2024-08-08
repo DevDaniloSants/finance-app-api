@@ -68,7 +68,7 @@ describe('DeleteUserController ', () => {
         expect(result.statusCode).toBe(404);
     });
 
-    it('should return 500 if DeleteUserCase throws', async () => {
+    it('should return 500 if DeleteUserUseCase throws', async () => {
         //arrange
         const { sut, deleteUserUseCase } = makeSut();
 
@@ -79,5 +79,18 @@ describe('DeleteUserController ', () => {
 
         //assert
         expect(result.statusCode).toBe(500);
+    });
+
+    it('should call DeleteUserUseCase with correct params', async () => {
+        //arrange
+        const { sut, deleteUserUseCase } = makeSut();
+
+        const execute = jest.spyOn(deleteUserUseCase, 'execute');
+
+        //act
+        await sut.execute(httpRequest);
+
+        //assert
+        expect(execute).toHaveBeenCalledWith(httpRequest.params.userId);
     });
 });
