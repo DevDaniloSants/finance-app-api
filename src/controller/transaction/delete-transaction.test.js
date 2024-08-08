@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { DeleteTransactionController } from './delete-transaction';
+import { TransactionNotFoundError } from '../../errors/transaction';
 
 describe('DeleteTransactionController', () => {
     class DeleteTransactionUseCaseStub {
@@ -92,5 +93,18 @@ describe('DeleteTransactionController', () => {
         expect(executeSpy).toHaveBeenCalledWith(
             httpRequest.params.transactionId,
         );
+    });
+    it('should return 404 if DeleteTransactionUseCase throws TransactionNotFoundError', async () => {
+        //arrage
+        const { sut, deleteTransactionUseCase } = makeSut();
+
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockRejectedValueOnce(
+            new TransactionNotFoundError(),
+        );
+        //act
+        const result = await sut.execute(httpRequest);
+
+        //assert
+        expect(result.statusCode).toBe(404);
     });
 });
