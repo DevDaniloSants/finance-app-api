@@ -6,6 +6,7 @@
     "scripts": {
         "test": "jest",
         "test:watch": "jest --watch --silent",
+        "test:coverage": "jest --silent --coverage",
         "postinstall": "npx husky init && npx prisma generate",
         "prepare": "husky",
         "start:dev": "node --watch index.js"
