@@ -1,16 +1,18 @@
-import jest from 'eslint-plugin-jest';
+import globals from 'globals';
+import js from '@eslint/js';
 
 export default [
+    js.configs.recommended,
     {
-        files: ['test/**'],
-        ...jest.configs['flat/recommended'],
-        rules: {
-            ...jest.configs['flat/recommended'].rules,
-            'jest/prefer-expect-assertions': 'off',
+        files: ['**/*.js'],
+        languageOptions: {
+            ecmaVersion: 'latest',
+            sourceType: 'module',
+            globals: {
+                ...globals.browser,
+                ...globals.jest,
+                ...globals.node,
+            },
         },
-    },
-    {
-        files: ['test/**'],
-        rules: { 'jest/prefer-expect-assertions': 'off' },
     },
 ];
