@@ -37,7 +37,6 @@ export class CreateUserUseCase {
         };
 
         // chamar o repository
-
         const createdUser = await this.createUserRepository.execute(user);
 
         return createdUser;
