@@ -35,4 +35,16 @@ describe('DeleteTransactionUseCase', () => {
         //assert
         expect(result).toEqual(transaction);
     });
+
+    it('should call DeleteTransactionRepository with correct params', async () => {
+        // arrange
+        const { sut, deleteTransactionRepository } = makeSut();
+
+        const executeSpy = jest.spyOn(deleteTransactionRepository, 'execute');
+        // act
+        await sut.execute(transaction.id);
+
+        // assert
+        expect(executeSpy).toHaveBeenCalledWith(transaction.id);
+    });
 });
