@@ -7,3 +7,10 @@ export const user = {
     email: faker.internet.email(),
     password: faker.internet.password({ length: 6 }),
 };
+
+export const balance = {
+    earnings: faker.finance.amount(),
+    expenses: faker.finance.amount(),
+    investiments: faker.finance.amount(),
+    balance: faker.finance.amount(),
+};
