@@ -2,10 +2,11 @@ import { faker } from '@faker-js/faker';
 
 import { CreateUserController } from './create-user';
 import { EmailIsAlreadyInUseError } from '../../errors/user';
+import { user } from '../../tests';
 
 describe('create user controller', () => {
     class CreateUserUseCaseStub {
-        async execute(user) {
+        async execute() {
             return user;
         }
     }
@@ -19,10 +20,8 @@ describe('create user controller', () => {
 
     const httpRequest = {
         body: {
-            first_name: faker.person.firstName(),
-            last_name: faker.person.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password({ length: 6 }),
+            ...user,
+            id: undefined,
         },
     };
 
@@ -36,7 +35,7 @@ describe('create user controller', () => {
 
         // assert
         expect(result.statusCode).toBe(201);
-        expect(result.body).toEqual(httpRequest.body);
+        expect(result.body).toEqual(user);
         expect(result.body).not.toBeUndefined();
     });
 
