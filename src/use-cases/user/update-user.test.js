@@ -1,16 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { UpdateUserUseCase } from './update-user';
 import { EmailIsAlreadyInUseError } from '../../errors/user';
+import { user } from '../../tests/';
 
 describe('UpdateUserUseCase', () => {
-    const user = {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 6 }),
-    };
-
     class GetUserByEmailRepositoryStub {
         async execute() {
             return null;
@@ -48,14 +41,12 @@ describe('UpdateUserUseCase', () => {
         };
     };
 
-    const userId = faker.string.uuid();
-
     it('should update user successfully (without email and password', async () => {
         //arrange
         const { sut } = makeSut();
 
         //act
-        const result = await sut.execute(userId, {
+        const result = await sut.execute(user.id, {
             first_name: faker.person.firstName(),
             last_name: faker.person.lastName(),
         });
@@ -71,7 +62,7 @@ describe('UpdateUserUseCase', () => {
 
         const email = faker.internet.email();
         //act
-        const result = await sut.execute(userId, {
+        const result = await sut.execute(user.id, {
             email,
         });
 
@@ -88,7 +79,7 @@ describe('UpdateUserUseCase', () => {
 
         const password = faker.internet.password({ length: 6 });
         //act
-        const result = await sut.execute(userId, {
+        const result = await sut.execute(user.id, {
             password,
         });
 
@@ -103,15 +94,15 @@ describe('UpdateUserUseCase', () => {
 
         jest.spyOn(getUserByEmailRepository, 'execute').mockResolvedValue(user);
 
-        const email = faker.internet.email();
+        const id = faker.string.uuid();
         //act
-        const promise = sut.execute(userId, {
-            email,
+        const promise = sut.execute(id, {
+            email: user.email,
         });
 
         //assert
         await expect(promise).rejects.toThrow(
-            new EmailIsAlreadyInUseError(email),
+            new EmailIsAlreadyInUseError(user.email),
         );
     });
 
@@ -129,10 +120,10 @@ describe('UpdateUserUseCase', () => {
         };
 
         // act
-        await sut.execute(userId, updateUserParams);
+        await sut.execute(user.id, updateUserParams);
 
         // assert
-        expect(executeSpy).toHaveBeenCalledWith(userId, {
+        expect(executeSpy).toHaveBeenCalledWith(user.id, {
             ...updateUserParams,
             password: 'hashed_password',
         });
@@ -147,7 +138,7 @@ describe('UpdateUserUseCase', () => {
         );
 
         // act
-        const promise = sut.execute(userId, {
+        const promise = sut.execute(user.id, {
             email: user.email,
         });
 
@@ -164,7 +155,7 @@ describe('UpdateUserUseCase', () => {
         );
 
         // act
-        const promise = sut.execute(userId, {
+        const promise = sut.execute(user.id, {
             password: user.password,
         });
 
@@ -188,7 +179,7 @@ describe('UpdateUserUseCase', () => {
         };
 
         // act
-        const promise = sut.execute(userId, updateUserParams);
+        const promise = sut.execute(user.id, updateUserParams);
 
         // assert
         await expect(promise).rejects.toThrow();

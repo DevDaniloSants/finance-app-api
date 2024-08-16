@@ -1,14 +1,6 @@
-import { faker } from '@faker-js/faker';
+import { user } from '../../tests/fixtures/user';
 import { GetUserByIdUseCase } from './get-user-by-id';
 describe('GetUserByIdUseCase', () => {
-    const user = {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 6 }),
-    };
-
     class GetUserByIdRepositoryStub {
         async execute() {
             return user;
@@ -22,14 +14,12 @@ describe('GetUserByIdUseCase', () => {
         return { sut, getUserByIdRepository };
     };
 
-    const userId = faker.string.uuid();
-
     it('should get user by id successfully ', async () => {
         //arrange
         const { sut } = makeSut();
 
         //act
-        const result = await sut.execute(userId);
+        const result = await sut.execute(user.id);
 
         //assert
         expect(result).toEqual(user);
@@ -42,10 +32,10 @@ describe('GetUserByIdUseCase', () => {
         const executeSpy = jest.spyOn(getUserByIdRepository, 'execute');
 
         //act
-        await sut.execute(userId);
+        await sut.execute(user.id);
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(userId);
+        expect(executeSpy).toHaveBeenCalledWith(user.id);
     });
     it('should throw  if GetByUserIdRepository throws', async () => {
         // arrage
@@ -56,7 +46,7 @@ describe('GetUserByIdUseCase', () => {
         );
         // act
 
-        const promise = sut.execute(userId);
+        const promise = sut.execute(user.id);
 
         // assert
         await expect(promise).rejects.toThrow();

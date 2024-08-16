@@ -1,15 +1,9 @@
 import { faker } from '@faker-js/faker';
 import { GetUserBalanceUseCase } from './get-user-balance';
 import { UserNotFoundError } from '../../errors/user';
+import { balance, user } from '../../tests/';
 
 describe('GetUserBalance', () => {
-    const balance = {
-        earnings: faker.finance.amount(),
-        expenses: faker.finance.amount(),
-        investiments: faker.finance.amount(),
-        balance: faker.finance.amount(),
-    };
-
     class GetUserBalanceRepositoryStub {
         async execute() {
             return balance;
@@ -40,14 +34,12 @@ describe('GetUserBalance', () => {
         return { sut, getUserBalanceRepository, getUserByIdRepository };
     };
 
-    const userId = faker.string.uuid();
-
     it('should get user balance successfully', async () => {
         //arrange
         const { sut } = makeSut();
 
         //act
-        const result = await sut.execute(userId);
+        const result = await sut.execute(user.id);
 
         //assert
         expect(result).toEqual(balance);
@@ -61,10 +53,10 @@ describe('GetUserBalance', () => {
         );
 
         //act
-        const promise = sut.execute(userId);
+        const promise = sut.execute(user.id);
 
         //assert
-        await expect(promise).rejects.toThrow(new UserNotFoundError(userId));
+        await expect(promise).rejects.toThrow(new UserNotFoundError(user.id));
     });
 
     it('should call GetUserByIdRepository with correct params ', async () => {
@@ -74,10 +66,10 @@ describe('GetUserBalance', () => {
         const executeSpy = jest.spyOn(getUserByIdRepository, 'execute');
 
         //act
-        await sut.execute(userId);
+        await sut.execute(user.id);
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(userId);
+        expect(executeSpy).toHaveBeenCalledWith(user.id);
     });
 
     it('should call GetUserBalanceRepository with correct params ', async () => {
@@ -87,10 +79,10 @@ describe('GetUserBalance', () => {
         const executeSpy = jest.spyOn(getUserBalanceRepository, 'execute');
 
         //act
-        await sut.execute(userId);
+        await sut.execute(user.id);
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(userId);
+        expect(executeSpy).toHaveBeenCalledWith(user.id);
     });
     it('should throw if GetUserByIdRepository throws ', async () => {
         //arrange
@@ -101,7 +93,7 @@ describe('GetUserBalance', () => {
         );
 
         //act
-        const promise = sut.execute(userId);
+        const promise = sut.execute(user.id);
 
         //assert
         await expect(promise).rejects.toThrow();
@@ -115,7 +107,7 @@ describe('GetUserBalance', () => {
         );
 
         //act
-        const promise = sut.execute(userId);
+        const promise = sut.execute(user.id);
 
         //assert
         await expect(promise).rejects.toThrow();

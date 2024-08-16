@@ -1,15 +1,7 @@
-import { faker } from '@faker-js/faker';
+import { user } from '../../tests/fixtures/user';
 import { DeleteUserUseCase } from './delete-user';
 
 describe('DeleteUserUseCase', () => {
-    const user = {
-        id: faker.string.uuid(),
-        first_name: faker.person.firstName(),
-        last_name: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 6 }),
-    };
-
     class DeleteUserRepositoryStub {
         async execute() {
             return user;
@@ -23,14 +15,12 @@ describe('DeleteUserUseCase', () => {
         return { sut, deleteUserRepository };
     };
 
-    const userId = faker.string.uuid();
-
     it('should successfully delete a user', async () => {
         //arrange
         const { sut } = makeSut();
         //act
 
-        const deleteUser = await sut.execute(userId);
+        const deleteUser = await sut.execute(user.id);
 
         //assert
         expect(deleteUser).toEqual(user);
@@ -42,10 +32,10 @@ describe('DeleteUserUseCase', () => {
         const executeSpy = jest.spyOn(deleteUserRepository, 'execute');
         //act
 
-        await sut.execute(userId);
+        await sut.execute(user.id);
 
         //assert
-        expect(executeSpy).toHaveBeenCalledWith(userId);
+        expect(executeSpy).toHaveBeenCalledWith(user.id);
     });
 
     it('should throw if DeleteUserRepository throws', async () => {
@@ -57,7 +47,7 @@ describe('DeleteUserUseCase', () => {
         );
 
         // act
-        const promise = sut.execute(userId);
+        const promise = sut.execute(user.id);
 
         // assert
         await expect(promise).rejects.toThrow();
