@@ -1,5 +1,5 @@
-import { faker } from '@faker-js/faker';
 import { UpdateTransactionUseCase } from './update-transaction';
+import { transaction } from '../../tests';
 
 describe('UpdateTransactionUseCase', () => {
     class UpdateTransactionRepositoryStub {
@@ -21,14 +21,9 @@ describe('UpdateTransactionUseCase', () => {
     };
 
     const updateTransactionParams = {
-        user_id: faker.string.uuid(),
-        name: faker.commerce.productName,
-        date: faker.date.anytime(),
-        type: faker.helpers.arrayElement(['EARNING', 'EXPENSE', 'INVESTMENT']),
-        amount: faker.finance.amount(),
+        ...transaction,
+        id: undefined,
     };
-
-    const transactionId = faker.string.uuid();
 
     it('should update a transaction successfully', async () => {
         //arrange
@@ -36,12 +31,12 @@ describe('UpdateTransactionUseCase', () => {
 
         //act
         const result = await sut.execute(
-            transactionId,
+            transaction.id,
             updateTransactionParams,
         );
         //assert
         expect(result).toEqual({
-            id: transactionId,
+            id: transaction.id,
             ...updateTransactionParams,
         });
     });
@@ -53,11 +48,11 @@ describe('UpdateTransactionUseCase', () => {
         const executeSpy = jest.spyOn(updateTransactionRepository, 'execute');
 
         //act
-        await sut.execute(transactionId, updateTransactionParams);
+        await sut.execute(transaction.id, updateTransactionParams);
 
         //assert
         expect(executeSpy).toHaveBeenCalledWith(
-            transactionId,
+            transaction.id,
             updateTransactionParams,
         );
     });
@@ -72,7 +67,7 @@ describe('UpdateTransactionUseCase', () => {
         ).mockRejectedValueOnce(new Error());
 
         //act
-        const promise = sut.execute(transactionId, updateTransactionParams);
+        const promise = sut.execute(transaction.id, updateTransactionParams);
 
         //assert
         await expect(promise).rejects.toThrow();
