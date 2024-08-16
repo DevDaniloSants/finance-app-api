@@ -53,4 +53,16 @@ describe('GetTransactionsByUserId', () => {
         //assert
         expect(result).toEqual(transaction);
     });
+
+    it('should call GetUserByIdRepository with correct params', async () => {
+        //arrage
+        const { sut, getUserByIdRepository } = makeSut();
+
+        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute');
+        //act
+        await sut.execute(user.id);
+
+        //assert
+        expect(executeSpy).toHaveBeenCalledWith(user.id);
+    });
 });
