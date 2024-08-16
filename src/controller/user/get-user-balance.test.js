@@ -1,16 +1,11 @@
-import { faker } from '@faker-js/faker';
-
 import { GetUserBalanceController } from './get-user-balance';
 import { UserNotFoundError } from '../../errors/user';
+import { balance, user } from '../../tests/fixtures/user';
 
 describe('GetUserBalanceController', () => {
     class GetUserBalanceUseCaseStub {
         async execute() {
-            return {
-                earnings: `${faker.number.int()}`,
-                expenses: `${faker.number.int()}`,
-                investiments: `${faker.number.int()}`,
-            };
+            return balance;
         }
     }
 
@@ -23,7 +18,7 @@ describe('GetUserBalanceController', () => {
 
     const httpRequest = {
         params: {
-            userId: faker.string.uuid(),
+            userId: user.id,
         },
     };
 

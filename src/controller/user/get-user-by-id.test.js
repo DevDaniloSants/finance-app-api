@@ -1,15 +1,10 @@
-import { faker } from '@faker-js/faker';
 import { GetUserByIdController } from './get-user-by-id';
+import { user } from '../../tests/fixtures/user';
 
 describe('GetUserByIdController', () => {
     class GetUserByIdUseCase {
         async execute() {
-            return {
-                first_name: faker.person.firstName(),
-                last_name: faker.person.lastName(),
-                email: faker.internet.email(),
-                password: faker.internet.password({ length: 6 }),
-            };
+            return user;
         }
     }
 
@@ -22,7 +17,7 @@ describe('GetUserByIdController', () => {
 
     const httpRequest = {
         params: {
-            userId: faker.string.uuid(),
+            userId: user.id,
         },
     };
 
