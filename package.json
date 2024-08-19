@@ -4,10 +4,10 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "test": "jest",
-        "test:watch": "jest --watch --silent",
-        "test:coverage": "jest --silent --coverage",
-        "postinstall": "npx husky init && npx prisma generate",
+        "test": "dotenv -e .env.test -- jest --silent",
+        "test:watch": "npm run test -- --watch ",
+        "test:coverage": "npm run test -- --coverage",
+        "postinstall": "husky init && prisma generate",
         "prepare": "husky",
         "start:dev": "node --watch index.js"
     },
@@ -35,6 +35,7 @@
         "@prisma/client": "^5.17.0",
         "bcrypt": "^5.1.1",
         "dotenv": "^16.4.5",
+        "dotenv-cli": "^7.4.2",
         "eslint-plugin-jest": "^28.6.0",
         "express": "^4.19.2",
         "pg": "^8.12.0",
