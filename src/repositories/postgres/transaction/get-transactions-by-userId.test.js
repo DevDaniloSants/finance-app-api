@@ -54,4 +54,18 @@ describe('GetTransactionsByUserId', () => {
             where: { user_id: fakerUser.id },
         });
     });
+
+    it('should throw if Prisma throws', async () => {
+        //arrange
+        const sut = new GetTransactionsByUserIdRepository();
+
+        jest.spyOn(prisma.transaction, 'findMany').mockRejectedValueOnce(
+            new Error(),
+        );
+        //act
+        const promise = sut.execute(transaction.id);
+
+        //assert
+        expect(promise).rejects.toThrow();
+    });
 });
