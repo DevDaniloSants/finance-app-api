@@ -34,4 +34,24 @@ describe('GetTransactionsByUserId', () => {
             dayjs(transaction.date).year(),
         );
     });
+
+    it('should call Prisma with correct params', async () => {
+        //arrange
+        await prisma.user.create({ data: fakerUser });
+        await prisma.transaction.create({
+            data: { ...transaction, user_id: fakerUser.id },
+        });
+
+        const sut = new GetTransactionsByUserIdRepository();
+
+        const prismaSpy = jest.spyOn(prisma.transaction, 'findMany');
+
+        //act
+        await sut.execute(fakerUser.id);
+
+        //assert
+        expect(prismaSpy).toHaveBeenCalledWith({
+            where: { user_id: fakerUser.id },
+        });
+    });
 });
