@@ -53,4 +53,26 @@ describe('UpdateTransactionRepository', () => {
             dayjs(updateTransactionParams.date).year(),
         );
     });
+
+    it('should call Prisma with correct params', async () => {
+        //arrange
+        const user = await prisma.user.create({ data: fakerUser });
+        const transaction = await prisma.transaction.create({
+            data: { ...fakerTransaction, user_id: user.id },
+        });
+        const sut = new UpdateTransactionRepository();
+
+        const prismaSpy = jest.spyOn(prisma.transaction, 'update');
+
+        //act
+        await sut.execute(transaction.id, transaction);
+
+        //assert
+        expect(prismaSpy).toHaveBeenCalledWith({
+            where: {
+                id: transaction.id,
+            },
+            data: transaction,
+        });
+    });
 });
