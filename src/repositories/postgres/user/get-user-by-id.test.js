@@ -20,4 +20,16 @@ describe('GetUserByIdRepository', () => {
 
         expect(prismaSpy).toHaveBeenCalledWith({ where: { id: fakerUser.id } });
     });
+
+    it('should throw if Prisma throws', async () => {
+        const sut = new GetUserByIdRepository();
+
+        jest.spyOn(prisma.user, 'findUnique').mockRejectedValueOnce(
+            new Error(),
+        );
+
+        const promise = sut.execute(fakerUser.id);
+
+        await expect(promise).rejects.toThrow();
+    });
 });
