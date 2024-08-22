@@ -35,4 +35,15 @@ describe('UpdateUserRepository', () => {
             data: updateUserParams,
         });
     });
+
+    it('should throw if Prisma throws', async () => {
+        const user = await prisma.user.create({ data: fakerUser });
+        const sut = new UpdateUserRepository();
+
+        jest.spyOn(prisma.user, 'update').mockRejectedValueOnce(new Error());
+
+        const promise = sut.execute(user.id, updateUserParams);
+
+        await expect(promise).rejects.toThrow();
+    });
 });
