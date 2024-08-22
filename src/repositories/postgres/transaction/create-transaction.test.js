@@ -28,4 +28,22 @@ describe('CreateTransactionRepository', () => {
         );
         expect(dayjs(result.date).year()).toBe(dayjs(transaction.date).year());
     });
+
+    it('should call Prisma with correct params', async () => {
+        //arrange
+        const user = await prisma.user.create({ data: fakerUser });
+        const sut = new PostgresCreateTransactionRepository();
+
+        const executePrisma = jest.spyOn(prisma.transaction, 'create');
+
+        const createTransactionParams = { ...transaction, user_id: user.id };
+
+        // act
+
+        await sut.execute(createTransactionParams);
+
+        expect(executePrisma).toHaveBeenCalledWith({
+            data: createTransactionParams,
+        });
+    });
 });
