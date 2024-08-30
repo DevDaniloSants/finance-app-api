@@ -54,4 +54,24 @@ describe('DeleteTransactionRepository', () => {
             },
         });
     });
+
+    it('should throws generic error if Prisma throws generic error', async () => {
+        //arrange
+        const user = await prisma.user.create({ data: fakerUser });
+        const transaction = await prisma.transaction.create({
+            data: { ...fakerTransaction, user_id: user.id },
+        });
+
+        const sut = new DeleteTransactionRepository();
+
+        jest.spyOn(prisma.transaction, 'delete').mockRejectedValueOnce(
+            new Error(),
+        );
+
+        //act
+        const promise = sut.execute(transaction.id);
+
+        //assert
+        await expect(promise).rejects.toThrow();
+    });
 });
