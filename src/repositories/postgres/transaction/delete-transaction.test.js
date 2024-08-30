@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
 import { prisma } from '../../../../prisma/prisma';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+
 import {
     transaction as fakerTransaction,
     user as fakerUser,
 } from '../../../tests';
 import { DeleteTransactionRepository } from './delete-transaction';
+import { TransactionNotFoundError } from '../../../errors/transaction';
 
 describe('DeleteTransactionRepository', () => {
     it('should delete a transaction on db', async () => {
@@ -73,5 +76,28 @@ describe('DeleteTransactionRepository', () => {
 
         //assert
         await expect(promise).rejects.toThrow();
+    });
+    it('should throws if TransactionNotFoundError is not found', async () => {
+        //arrange
+        const user = await prisma.user.create({ data: fakerUser });
+        const transaction = await prisma.transaction.create({
+            data: { ...fakerTransaction, user_id: user.id },
+        });
+
+        const sut = new DeleteTransactionRepository();
+
+        jest.spyOn(prisma.transaction, 'delete').mockRejectedValueOnce(
+            new PrismaClientKnownRequestError('', {
+                code: 'P2025',
+            }),
+        );
+
+        //act
+        const promise = sut.execute(transaction.id);
+
+        //assert
+        await expect(promise).rejects.toThrow(
+            new TransactionNotFoundError(transaction.id),
+        );
     });
 });
