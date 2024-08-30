@@ -49,8 +49,8 @@ describe('DeleteTransactionController', () => {
         //arrage
         const { sut, deleteTransactionUseCase } = makeSut();
 
-        jest.spyOn(deleteTransactionUseCase, 'execute').mockResolvedValueOnce(
-            null,
+        jest.spyOn(deleteTransactionUseCase, 'execute').mockRejectedValueOnce(
+            new TransactionNotFoundError(transaction.id),
         );
         //act
         const result = await sut.execute(httpRequest);
