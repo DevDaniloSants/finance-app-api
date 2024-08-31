@@ -1,5 +1,6 @@
 import { DeleteUserController } from './delete-user';
 import { user } from '../../tests/fixtures/user';
+import { UserNotFoundError } from '../../errors/user';
 
 describe('DeleteUserController ', () => {
     class DeleteUserUseCaseStub {
@@ -51,7 +52,9 @@ describe('DeleteUserController ', () => {
 
         const { sut, deleteUserUseCase } = makeSut();
 
-        jest.spyOn(deleteUserUseCase, 'execute').mockResolvedValue(null);
+        jest.spyOn(deleteUserUseCase, 'execute').mockRejectedValueOnce(
+            new UserNotFoundError(user.id),
+        );
 
         //act
 
