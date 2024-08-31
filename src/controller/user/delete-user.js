@@ -1,11 +1,11 @@
 import {
     checkIfIdIsValid,
     invalidIdResponse,
-    notFound,
     ok,
     serverError,
     userNotFoundResponse,
 } from '../helpers/index.js';
+import { UserNotFoundError } from '../../errors/user.js';
 
 export class DeleteUserController {
     constructor(deleteUserUseCase) {
@@ -23,13 +23,11 @@ export class DeleteUserController {
 
             const user = await this.deleteUserUseCase.execute(userId);
 
-            if (!user) {
-                return userNotFoundResponse();
-            }
-
             return ok(user);
         } catch (error) {
-            console.log(error);
+            if (error instanceof UserNotFoundError) {
+                return userNotFoundResponse();
+            }
             return serverError();
         }
     }
