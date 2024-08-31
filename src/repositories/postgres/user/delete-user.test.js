@@ -1,6 +1,8 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { prisma } from '../../../../prisma/prisma';
 import { user } from '../../../tests';
 import { DeleteUserRepository } from './delete-user';
+import { UserNotFoundError } from '../../../errors/user';
 
 describe('DeleteUserRepository', () => {
     it('should delete a user on db', async () => {
@@ -18,8 +20,11 @@ describe('DeleteUserRepository', () => {
         expect(result).toStrictEqual(user);
     });
 
-    it('should  call Prisma with correct params', async () => {
+    it('should call Prisma with correct params', async () => {
         //arrage
+        await prisma.user.create({
+            data: user,
+        });
         const sut = new DeleteUserRepository();
         const prismaSpy = jest.spyOn(prisma.user, 'delete');
 
@@ -32,5 +37,41 @@ describe('DeleteUserRepository', () => {
                 id: user.id,
             },
         });
+    });
+
+    it('should throws generic error if Prisma throws generic error', async () => {
+        //arrage
+        await prisma.user.create({
+            data: user,
+        });
+        const sut = new DeleteUserRepository();
+        jest.spyOn(prisma.user, 'delete').mockRejectedValueOnce(new Error());
+
+        //act
+        const promise = sut.execute(user.id);
+
+        //assert
+        await expect(promise).rejects.toThrow();
+    });
+
+    it('should throws if UserNotFoundError is not found', async () => {
+        //arrange
+        await prisma.user.create({
+            data: user,
+        });
+
+        const sut = new DeleteUserRepository();
+
+        jest.spyOn(prisma.user, 'delete').mockRejectedValueOnce(
+            new PrismaClientKnownRequestError('', {
+                code: 'P2025',
+            }),
+        );
+
+        //act
+        const promise = sut.execute(user.id);
+
+        //assert
+        await expect(promise).rejects.toThrow(new UserNotFoundError(user.id));
     });
 });
