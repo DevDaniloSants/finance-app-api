@@ -2,16 +2,13 @@ import express from 'express';
 import 'dotenv/config';
 
 import {
-    makeCreateUserController,
-    makeDeleteUserController,
-    makeGetUserByIdController,
-    makeUpdateUserController,
     makeCreateTransactionController,
     makeGetTransactionsByUserIdController,
     makeUpdateTransactionController,
-    makeGetUserBalanceController,
     makeDeleteTransactionController,
 } from './src/factories/controllers/index.js';
+
+import { usersRouter } from './src/routes/users.js';
 
 const app = express();
 
@@ -19,46 +16,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
-app.post('/api/users', async (request, response) => {
-    const createUserController = makeCreateUserController();
-
-    const { statusCode, body } = await createUserController.execute(request);
-
-    response.status(statusCode).send(body);
-});
-
-app.patch('/api/users/:userId', async (request, response) => {
-    const updatedUserControler = makeUpdateUserController();
-
-    const { statusCode, body } = await updatedUserControler.execute(request);
-
-    response.status(statusCode).send(body);
-});
-
-app.get('/api/users/:userId', async (request, response) => {
-    const getUserByIdController = makeGetUserByIdController();
-
-    const { statusCode, body } = await getUserByIdController.execute(request);
-
-    response.status(statusCode).send(body);
-});
-
-app.delete('/api/users/:userId', async (request, response) => {
-    const deleteUserController = makeDeleteUserController();
-
-    const { statusCode, body } = await deleteUserController.execute(request);
-
-    response.status(statusCode).send(body);
-});
-
-app.get('/api/users/:userId/balance', async (request, response) => {
-    const getUserBalanceController = makeGetUserBalanceController();
-
-    const { statusCode, body } =
-        await getUserBalanceController.execute(request);
-
-    response.status(statusCode).send(body);
-});
+app.use('/api/users', usersRouter);
 
 app.get('/api/transactions', async (request, response) => {
     const getTransactionsByUserController =
