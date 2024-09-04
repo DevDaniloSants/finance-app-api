@@ -114,11 +114,16 @@ describe('Transactions Routes  E2E Tests', () => {
         expect(response.statusCode).toBe(404);
     });
     it('DELETE /api/transactions/:transactionId should return 404 when deleting a non-existing transaction', async () => {
-        const response = await request(app)
-            .delete(`/api/transactions/${transaction.id}`)
-            .send({
-                amount: 100,
-            });
+        const response = await request(app).delete(
+            `/api/transactions/${transaction.id}`,
+        );
+
+        expect(response.statusCode).toBe(404);
+    });
+    it('GET /api/transactions?userId should return 404 when fetching transactions from a non-existing user', async () => {
+        const response = await request(app).get(
+            `/api/transactions?userId=${user.id}`,
+        );
 
         expect(response.statusCode).toBe(404);
     });
