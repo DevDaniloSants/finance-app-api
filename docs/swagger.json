@@ -4,5 +4,85 @@
         "title": "Finance App",
         "description": "API for Finance App that allows users to manage their finances.",
         "version": "1.0.0"
+    },
+    "paths": {
+        "/api/users": {
+            "post": {
+                "summary": "Create a new user",
+                "tagas": ["User"],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/CreateUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid params"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "CreateUserParams": {
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "john@doe.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "ee873ff1-cd3e-437c-942a-693353f9ba80"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Doe"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "john@doe.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "password"
+                }
+            }
+        }
     }
 }
