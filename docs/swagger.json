@@ -171,12 +171,48 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "User created successfully",
+                        "description": "User balance retrieved successfully",
                         "schema": {
                             "$ref": "#/definitions/UserBalance"
                         }
                     },
                     "404": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transactions": {
+            "post": {
+                "summary": "Create a new transaction",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Transaction created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "400": {
                         "description": "Invalid params",
                         "schema": {
                             "$ref": "#/definitions/InvalidParamResponse"
@@ -211,6 +247,60 @@
                 "password": {
                     "type": "string",
                     "example": "password"
+                }
+            }
+        },
+        "CreateTransactionParams": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "example": "8a3ba509-098e-48fa-8bf1-e4483a25ffbb"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Course"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2020-01-01T00:00:00Z"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EXPENSE"
+                }
+            }
+        },
+        "Transaction": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "afe7d01b-c149-4c33-becb-c2194e993bb3"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "8a3ba509-098e-48fa-8bf1-e4483a25ffbb"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Course"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2020-01-01T00:00:00Z"
+                },
+                "amount": {
+                    "type": "string",
+                    "example": "1000"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EXPENSE"
                 }
             }
         },
