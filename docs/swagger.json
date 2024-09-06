@@ -9,7 +9,7 @@
         "/api/users": {
             "post": {
                 "summary": "Create a new user",
-                "tagas": ["User"],
+                "tags": ["User"],
                 "parameters": [
                     {
                         "name": "body",
@@ -29,6 +29,35 @@
                     },
                     "400": {
                         "description": "Invalid params"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/api/users/{userId}": {
+            "get": {
+                "summary": "Get user by ID",
+                "tags": ["User"],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the user to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
                     },
                     "500": {
                         "description": "Internal server error"
