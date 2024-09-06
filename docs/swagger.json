@@ -225,6 +225,38 @@
                         }
                     }
                 }
+            },
+            "get": {
+                "summary": "Get transactions by user ID",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userId",
+                        "required": true,
+                        "description": "ID of the user to get transactions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of all transactions associated with the specified user ID",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/UserNotFoundServerErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
             }
         }
     },
