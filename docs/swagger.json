@@ -258,6 +258,53 @@
                     }
                 }
             }
+        },
+        "/api/transactions/{transactionId}": {
+            "patch": {
+                "summary": "Update transaction by  ID",
+                "tags": ["Transaction"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "transactionId",
+                        "required": true
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateTransactionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transaction updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Transaction"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid params",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidParamResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Transaction not found",
+                        "schema": {
+                            "$ref": "#/definitions/TransactionNotFoundServerErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/InternalServerErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -289,6 +336,27 @@
                     "type": "string",
                     "example": "8a3ba509-098e-48fa-8bf1-e4483a25ffbb"
                 },
+                "name": {
+                    "type": "string",
+                    "example": "Course"
+                },
+                "date": {
+                    "type": "string",
+                    "example": "2020-01-01T00:00:00Z"
+                },
+                "amount": {
+                    "type": "number",
+                    "example": 1000
+                },
+                "type": {
+                    "type": "string",
+                    "example": "EXPENSE"
+                }
+            }
+        },
+        "UpdateTransactionParams": {
+            "type": "object",
+            "properties": {
                 "name": {
                     "type": "string",
                     "example": "Course"
@@ -397,6 +465,15 @@
                 "message": {
                     "type": "string",
                     "example": "User not found"
+                }
+            }
+        },
+        "TransactionNotFoundServerErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Transaction not found"
                 }
             }
         },
