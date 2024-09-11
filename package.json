@@ -18,12 +18,9 @@
     "license": "ISC",
     "description": "",
     "devDependencies": {
-        "@babel/core": "^7.25.2",
-        "@babel/preset-env": "^7.25.3",
         "@eslint/js": "^9.5.0",
         "@faker-js/faker": "^8.4.1",
         "@types/jest": "^29.5.12",
-        "babel-jest": "^29.7.0",
         "eslint": "^9.8.0",
         "git-commit-msg-linter": "^5.0.8",
         "globals": "^15.6.0",
