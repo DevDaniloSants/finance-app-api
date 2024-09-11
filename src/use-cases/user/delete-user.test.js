@@ -29,7 +29,10 @@ describe('DeleteUserUseCase', () => {
         //arrange
         const { sut, deleteUserRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(deleteUserRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            deleteUserRepository,
+            'execute',
+        );
         //act
 
         await sut.execute(user.id);
@@ -42,9 +45,9 @@ describe('DeleteUserUseCase', () => {
         // arrange
         const { sut, deleteUserRepository } = makeSut();
 
-        jest.spyOn(deleteUserRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(deleteUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         // act
         const promise = sut.execute(user.id);

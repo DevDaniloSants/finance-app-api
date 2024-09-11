@@ -59,10 +59,9 @@ describe('GetTransactionsByUserId', () => {
         // arrange
         const { sut, getTransactionsByUserIdUseCase } = makeSut();
 
-        jest.spyOn(
-            getTransactionsByUserIdUseCase,
-            'execute',
-        ).mockRejectedValueOnce(new UserNotFoundError());
+        import.meta.jest
+            .spyOn(getTransactionsByUserIdUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError());
 
         //act
         const result = await sut.execute(httpRequest);
@@ -74,10 +73,9 @@ describe('GetTransactionsByUserId', () => {
         // arrange
         const { sut, getTransactionsByUserIdUseCase } = makeSut();
 
-        jest.spyOn(
-            getTransactionsByUserIdUseCase,
-            'execute',
-        ).mockRejectedValueOnce(new Error());
+        import.meta.jest
+            .spyOn(getTransactionsByUserIdUseCase, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const result = await sut.execute(httpRequest);
@@ -89,7 +87,7 @@ describe('GetTransactionsByUserId', () => {
         // arrange
         const { sut, getTransactionsByUserIdUseCase } = makeSut();
 
-        const executeSpy = jest.spyOn(
+        const executeSpy = import.meta.jest.spyOn(
             getTransactionsByUserIdUseCase,
             'execute',
         );

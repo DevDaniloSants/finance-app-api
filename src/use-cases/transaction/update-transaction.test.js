@@ -45,7 +45,10 @@ describe('UpdateTransactionUseCase', () => {
         //arrange
         const { sut, updateTransactionRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(updateTransactionRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            updateTransactionRepository,
+            'execute',
+        );
 
         //act
         await sut.execute(transaction.id, updateTransactionParams);
@@ -61,10 +64,9 @@ describe('UpdateTransactionUseCase', () => {
         //arrange
         const { sut, updateTransactionRepository } = makeSut();
 
-        jest.spyOn(
-            updateTransactionRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error());
+        import.meta.jest
+            .spyOn(updateTransactionRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(transaction.id, updateTransactionParams);

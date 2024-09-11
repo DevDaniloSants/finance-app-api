@@ -44,7 +44,10 @@ describe('GetTransactionsByUserId', () => {
 
         const sut = new GetTransactionsByUserIdRepository();
 
-        const prismaSpy = jest.spyOn(prisma.transaction, 'findMany');
+        const prismaSpy = import.meta.jest.spyOn(
+            prisma.transaction,
+            'findMany',
+        );
 
         //act
         await sut.execute(fakerUser.id);
@@ -59,9 +62,9 @@ describe('GetTransactionsByUserId', () => {
         //arrange
         const sut = new GetTransactionsByUserIdRepository();
 
-        jest.spyOn(prisma.transaction, 'findMany').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(prisma.transaction, 'findMany')
+            .mockRejectedValueOnce(new Error());
         //act
         const promise = sut.execute(transaction.id);
 

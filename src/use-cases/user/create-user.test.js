@@ -69,9 +69,9 @@ describe('CreateUserUseCase', () => {
         //arrange
 
         const { sut, getUserByEmailRepository } = makeSut();
-        jest.spyOn(getUserByEmailRepository, 'execute').mockReturnValueOnce(
-            user,
-        );
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockReturnValueOnce(user);
 
         //act
         const promise = sut.execute(user);
@@ -87,9 +87,12 @@ describe('CreateUserUseCase', () => {
 
         const { sut, idGeneratorAdapter, createUserRepository } = makeSut();
 
-        const idGeneratorSpy = jest.spyOn(idGeneratorAdapter, 'execute');
+        const idGeneratorSpy = import.meta.jest.spyOn(
+            idGeneratorAdapter,
+            'execute',
+        );
 
-        const createUserRepositorySpy = jest.spyOn(
+        const createUserRepositorySpy = import.meta.jest.spyOn(
             createUserRepository,
             'execute',
         );
@@ -113,9 +116,12 @@ describe('CreateUserUseCase', () => {
 
         const { sut, createUserRepository, passwordHasherAdapter } = makeSut();
 
-        const passwordHasherSpy = jest.spyOn(passwordHasherAdapter, 'execute');
+        const passwordHasherSpy = import.meta.jest.spyOn(
+            passwordHasherAdapter,
+            'execute',
+        );
 
-        const createUserRepositorySpy = jest.spyOn(
+        const createUserRepositorySpy = import.meta.jest.spyOn(
             createUserRepository,
             'execute',
         );
@@ -138,9 +144,9 @@ describe('CreateUserUseCase', () => {
         //arrange
 
         const { sut, getUserByEmailRepository } = makeSut();
-        jest.spyOn(getUserByEmailRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user);
@@ -153,9 +159,9 @@ describe('CreateUserUseCase', () => {
         //arrange
 
         const { sut, idGeneratorAdapter } = makeSut();
-        jest.spyOn(idGeneratorAdapter, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(idGeneratorAdapter, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user);
@@ -168,9 +174,9 @@ describe('CreateUserUseCase', () => {
         //arrange
 
         const { sut, passwordHasherAdapter } = makeSut();
-        jest.spyOn(passwordHasherAdapter, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(passwordHasherAdapter, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user);
@@ -183,9 +189,9 @@ describe('CreateUserUseCase', () => {
         //arrange
 
         const { sut, createUserRepository } = makeSut();
-        jest.spyOn(createUserRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(createUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user);

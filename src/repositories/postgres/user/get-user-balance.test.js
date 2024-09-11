@@ -65,9 +65,12 @@ describe('GetUserBalanceRepository', () => {
         expect(result.balance.toString()).toBe('2000');
     });
 
-    it('should call Prisma with corect params', async () => {
+    it('should call Prisma with correct params', async () => {
         const sut = new GetUserBalanceRepository();
-        const prismaSpy = jest.spyOn(prisma.transaction, 'aggregate');
+        const prismaSpy = import.meta.jest.spyOn(
+            prisma.transaction,
+            'aggregate',
+        );
 
         await sut.execute(fakeUser.id);
 
@@ -104,9 +107,9 @@ describe('GetUserBalanceRepository', () => {
     it('should throw if Prisma throws', async () => {
         const sut = new GetUserBalanceRepository();
 
-        jest.spyOn(prisma.transaction, 'aggregate').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(prisma.transaction, 'aggregate')
+            .mockRejectedValueOnce(new Error());
 
         const promise = sut.execute(fakeUser.id);
 

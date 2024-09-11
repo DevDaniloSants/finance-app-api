@@ -26,7 +26,7 @@ describe('DeleteUserRepository', () => {
             data: user,
         });
         const sut = new DeleteUserRepository();
-        const prismaSpy = jest.spyOn(prisma.user, 'delete');
+        const prismaSpy = import.meta.jest.spyOn(prisma.user, 'delete');
 
         //act
         await sut.execute(user.id);
@@ -45,7 +45,9 @@ describe('DeleteUserRepository', () => {
             data: user,
         });
         const sut = new DeleteUserRepository();
-        jest.spyOn(prisma.user, 'delete').mockRejectedValueOnce(new Error());
+        import.meta.jest
+            .spyOn(prisma.user, 'delete')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user.id);
@@ -62,7 +64,7 @@ describe('DeleteUserRepository', () => {
 
         const sut = new DeleteUserRepository();
 
-        jest.spyOn(prisma.user, 'delete').mockRejectedValueOnce(
+        import.meta.jest.spyOn(prisma.user, 'delete').mockRejectedValueOnce(
             new PrismaClientKnownRequestError('', {
                 code: 'P2025',
             }),

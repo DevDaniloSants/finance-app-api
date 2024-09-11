@@ -58,7 +58,10 @@ describe('UpdateUserUseCase', () => {
         //arrange
         const { sut, getUserByEmailRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(getUserByEmailRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByEmailRepository,
+            'execute',
+        );
 
         const email = faker.internet.email();
         //act
@@ -75,7 +78,10 @@ describe('UpdateUserUseCase', () => {
         //arrange
         const { sut, passwordHasherAdapter } = makeSut();
 
-        const executeSpy = jest.spyOn(passwordHasherAdapter, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            passwordHasherAdapter,
+            'execute',
+        );
 
         const password = faker.internet.password({ length: 6 });
         //act
@@ -92,7 +98,9 @@ describe('UpdateUserUseCase', () => {
         //arrange
         const { sut, getUserByEmailRepository } = makeSut();
 
-        jest.spyOn(getUserByEmailRepository, 'execute').mockResolvedValue(user);
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockResolvedValue(user);
 
         const id = faker.string.uuid();
         //act
@@ -110,7 +118,10 @@ describe('UpdateUserUseCase', () => {
         // arrange
         const { sut, updateUserRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(updateUserRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            updateUserRepository,
+            'execute',
+        );
 
         const updateUserParams = {
             first_name: user.firstName,
@@ -133,9 +144,9 @@ describe('UpdateUserUseCase', () => {
         // arrange
         const { sut, getUserByEmailRepository } = makeSut();
 
-        jest.spyOn(getUserByEmailRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(getUserByEmailRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         // act
         const promise = sut.execute(user.id, {
@@ -150,9 +161,9 @@ describe('UpdateUserUseCase', () => {
         // arrange
         const { sut, passwordHasherAdapter } = makeSut();
 
-        jest.spyOn(passwordHasherAdapter, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(passwordHasherAdapter, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         // act
         const promise = sut.execute(user.id, {
@@ -167,9 +178,9 @@ describe('UpdateUserUseCase', () => {
         // arrange
         const { sut, updateUserRepository } = makeSut();
 
-        jest.spyOn(updateUserRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(updateUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         const updateUserParams = {
             first_name: user.firstName,

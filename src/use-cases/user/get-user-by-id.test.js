@@ -29,7 +29,10 @@ describe('GetUserByIdUseCase', () => {
         //arrange
         const { sut, getUserByIdRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        );
 
         //act
         await sut.execute(user.id);
@@ -41,9 +44,9 @@ describe('GetUserByIdUseCase', () => {
         // arrage
         const { sut, getUserByIdRepository } = makeSut();
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
         // act
 
         const promise = sut.execute(user.id);

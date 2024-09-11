@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 
-import { CreateUserController } from './create-user';
-import { EmailIsAlreadyInUseError } from '../../errors/user';
+import { CreateUserController } from './create-user.js';
+import { EmailIsAlreadyInUseError } from '../../errors/user.js';
 import { user } from '../../tests';
 
 describe('create user controller', () => {
@@ -140,7 +140,7 @@ describe('create user controller', () => {
 
         const { sut, createUserUseCase } = makeSut();
 
-        const executeSpy = jest.spyOn(createUserUseCase, 'execute');
+        const executeSpy = import.meta.jest.spyOn(createUserUseCase, 'execute');
 
         //act
 
@@ -154,7 +154,9 @@ describe('create user controller', () => {
         //arrange
         const { sut, createUserUseCase } = makeSut();
 
-        jest.spyOn(createUserUseCase, 'execute').mockRejectedValue(new Error());
+        import.meta.jest
+            .spyOn(createUserUseCase, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
 
@@ -168,9 +170,11 @@ describe('create user controller', () => {
         //arrange
         const { sut, createUserUseCase } = makeSut();
 
-        jest.spyOn(createUserUseCase, 'execute').mockRejectedValueOnce(
-            new EmailIsAlreadyInUseError(httpRequest.body.email),
-        );
+        import.meta.jest
+            .spyOn(createUserUseCase, 'execute')
+            .mockRejectedValueOnce(
+                new EmailIsAlreadyInUseError(httpRequest.body.email),
+            );
 
         //act
 

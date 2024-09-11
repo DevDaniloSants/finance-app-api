@@ -64,7 +64,7 @@ describe('UpdateTransactionRepository', () => {
         });
         const sut = new UpdateTransactionRepository();
 
-        const prismaSpy = jest.spyOn(prisma.transaction, 'update');
+        const prismaSpy = import.meta.jest.spyOn(prisma.transaction, 'update');
 
         //act
         await sut.execute(transaction.id, transaction);
@@ -82,9 +82,9 @@ describe('UpdateTransactionRepository', () => {
         //arrange
         const sut = new UpdateTransactionRepository();
 
-        jest.spyOn(prisma.transaction, 'update').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(prisma.transaction, 'update')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(fakerTransaction.id, fakerTransaction);
@@ -96,11 +96,13 @@ describe('UpdateTransactionRepository', () => {
         //arrange
         const sut = new UpdateTransactionRepository();
 
-        jest.spyOn(prisma.transaction, 'update').mockRejectedValueOnce(
-            new PrismaClientKnownRequestError('', {
-                code: 'P2025',
-            }),
-        );
+        import.meta.jest
+            .spyOn(prisma.transaction, 'update')
+            .mockRejectedValueOnce(
+                new PrismaClientKnownRequestError('', {
+                    code: 'P2025',
+                }),
+            );
 
         //act
         const promise = sut.execute(fakerTransaction.id, fakerTransaction);

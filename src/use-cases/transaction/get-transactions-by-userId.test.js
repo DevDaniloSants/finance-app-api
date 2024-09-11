@@ -42,7 +42,10 @@ describe('GetTransactionsByUserId', () => {
         //arrage
         const { sut, getUserByIdRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(getUserByIdRepository, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            getUserByIdRepository,
+            'execute',
+        );
         //act
         await sut.execute(user.id);
 
@@ -53,7 +56,7 @@ describe('GetTransactionsByUserId', () => {
         //arrage
         const { sut, getTransactionsByUserRepository } = makeSut();
 
-        const executeSpy = jest.spyOn(
+        const executeSpy = import.meta.jest.spyOn(
             getTransactionsByUserRepository,
             'execute',
         );
@@ -68,9 +71,9 @@ describe('GetTransactionsByUserId', () => {
         //arrange
         const { sut, getUserByIdRepository } = makeSut();
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockResolvedValueOnce(
-            null,
-        );
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockResolvedValueOnce(null);
 
         //act
         const promise = sut.execute(user.id);
@@ -83,9 +86,9 @@ describe('GetTransactionsByUserId', () => {
         //arrage
         const { sut, getUserByIdRepository } = makeSut();
 
-        jest.spyOn(getUserByIdRepository, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(getUserByIdRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user.id);
@@ -98,10 +101,9 @@ describe('GetTransactionsByUserId', () => {
         //arrage
         const { sut, getTransactionsByUserRepository } = makeSut();
 
-        jest.spyOn(
-            getTransactionsByUserRepository,
-            'execute',
-        ).mockRejectedValueOnce(new Error());
+        import.meta.jest
+            .spyOn(getTransactionsByUserRepository, 'execute')
+            .mockRejectedValueOnce(new Error());
 
         //act
         const promise = sut.execute(user.id);

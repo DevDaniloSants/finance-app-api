@@ -1,20 +1,19 @@
 import { Router } from 'express';
-
 import {
     makeCreateTransactionController,
     makeDeleteTransactionController,
     makeGetTransactionsByUserIdController,
     makeUpdateTransactionController,
-} from '../factories/controllers/index.js';
+} from '../factories/controllers/transaction.js';
 
 export const transactionsRouter = Router();
 
 transactionsRouter.get('/', async (request, response) => {
-    const getTransactionsByUserController =
+    const getTransactionsByUserIdController =
         makeGetTransactionsByUserIdController();
 
     const { statusCode, body } =
-        await getTransactionsByUserController.execute(request);
+        await getTransactionsByUserIdController.execute(request);
 
     response.status(statusCode).send(body);
 });

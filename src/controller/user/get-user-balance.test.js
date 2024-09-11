@@ -48,9 +48,9 @@ describe('GetUserBalanceController', () => {
         //arrange
         const { sut, getUserBalanceUseCase } = makeSut();
 
-        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValue(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(getUserBalanceUseCase, 'execute')
+            .mockRejectedValueOnce(new Error());
         //act
 
         const result = await sut.execute(httpRequest);
@@ -62,7 +62,10 @@ describe('GetUserBalanceController', () => {
         //arrange
         const { sut, getUserBalanceUseCase } = makeSut();
 
-        const executeSpy = jest.spyOn(getUserBalanceUseCase, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            getUserBalanceUseCase,
+            'execute',
+        );
         //act
 
         await sut.execute(httpRequest);
@@ -74,9 +77,9 @@ describe('GetUserBalanceController', () => {
         //arrange
         const { sut, getUserBalanceUseCase } = makeSut();
 
-        jest.spyOn(getUserBalanceUseCase, 'execute').mockRejectedValueOnce(
-            new UserNotFoundError(),
-        );
+        import.meta.jest
+            .spyOn(getUserBalanceUseCase, 'execute')
+            .mockRejectedValueOnce(new UserNotFoundError());
         //act
 
         const result = await sut.execute(httpRequest);

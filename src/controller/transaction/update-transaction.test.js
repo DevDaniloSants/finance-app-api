@@ -104,9 +104,9 @@ describe('UpdateTransactionController', () => {
         //arrange
         const { sut, updateTransactionUseCase } = makeSut();
 
-        jest.spyOn(updateTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new Error(),
-        );
+        import.meta.jest
+            .spyOn(updateTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new Error());
         //act
         const result = await sut.execute(httpRequest);
 
@@ -118,9 +118,9 @@ describe('UpdateTransactionController', () => {
         //arrange
         const { sut, updateTransactionUseCase } = makeSut();
 
-        jest.spyOn(updateTransactionUseCase, 'execute').mockRejectedValueOnce(
-            new TransactionNotFoundError(),
-        );
+        import.meta.jest
+            .spyOn(updateTransactionUseCase, 'execute')
+            .mockRejectedValueOnce(new TransactionNotFoundError());
         //act
         const result = await sut.execute(httpRequest);
 
@@ -132,7 +132,10 @@ describe('UpdateTransactionController', () => {
         //arrange
         const { sut, updateTransactionUseCase } = makeSut();
 
-        const executeSpy = jest.spyOn(updateTransactionUseCase, 'execute');
+        const executeSpy = import.meta.jest.spyOn(
+            updateTransactionUseCase,
+            'execute',
+        );
         //act
         await sut.execute(httpRequest);
 
