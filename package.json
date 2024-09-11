@@ -10,6 +10,7 @@
         "postinstall": "husky init && prisma generate",
         "prepare": "husky",
         "start:dev": "node --watch index.js",
+        "start": "node index.js",
         "eslint:check": "eslint src/**/*.js",
         "prettier:check": "prettier --check src"
     },
